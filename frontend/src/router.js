@@ -26,13 +26,14 @@ const router = new Router({
   ]
 });
 
-const token = store.state.token;
-
 router.beforeEach(async (to, from, next) => {
-  //let response = await AuthenticateService.authenticate(token);
-  //console.log(response);
-  if (to.path !== "/" && !store.state.token) {
+  let res = await AuthenticateService.authenticate({
+    token: localStorage.getItem("token")
+  });
+  if (to.path !== "/" && !res.data) {
     next("/");
+  } else if (to.path === "/" && res.data) {
+    next("/home");
   }
   next();
 });

@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET || "secret";
 function jwtSignUser(user) {
   const SEMANA = 60 * 60 * 24 * 7;
-  return jwt.sign(user, jwtSecret, {
+  return jwt.sign({ id: user._id }, jwtSecret, {
     expiresIn: SEMANA
   });
 }

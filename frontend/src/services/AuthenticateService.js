@@ -2,7 +2,6 @@ import Api from "./Api";
 
 export default {
   authenticate(datos) {
-    //console.log("hello");
-    return Api().get("authenticate", datos);
+    return Api().post("authenticate", datos);
   }
 };

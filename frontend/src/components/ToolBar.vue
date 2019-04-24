@@ -39,6 +39,7 @@ export default {
   }),
   methods: {
     salir() {
+      localStorage.clear();
       this.$store.dispatch("setToken", null);
       this.$store.dispatch("setUser", null);
       this.$router.push("/");

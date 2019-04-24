@@ -18,11 +18,9 @@ require("./passport");
 
 const users = require("./routes/user");
 const login = require("./routes/login");
-const cursos = require("./routes/course");
 const authenticate = require("./routes/authenticate");
 
 app.use("/api/users", users);
-app.use("/api/courses", cursos);
 app.use("/api/login", login);
 app.use("/api/authenticate", authenticate);
 

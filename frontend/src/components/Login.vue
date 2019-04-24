@@ -40,6 +40,7 @@
 
 <script>
 import LoginService from "@/services/LoginService";
+import AuthenticateService from "@/services/AuthenticateService";
 export default {
   data: () => ({
     show: false,
@@ -53,6 +54,9 @@ export default {
         password: this.pass
       });
       if (response.data.logged) {
+        if (!localStorage.getItem("token")) {
+          localStorage.setItem("token", response.data.token);
+        }
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
         this.$router.push("home");
