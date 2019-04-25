@@ -9,7 +9,7 @@
 
 <script>
 import ToolBar from "../components/ToolBar";
-import Table from "../components/TableCursosAdmin";
+import Table from "../components/TableCursos";
 
 export default {
   components: {

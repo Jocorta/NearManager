@@ -4,7 +4,7 @@ export default{
     getCourses() {
         return Api().get("courses");
     },
-    getCoursebyId() {
-        return Api().get("courses");
+    createCourse() {
+        return Api().post("courses");
     }
 };

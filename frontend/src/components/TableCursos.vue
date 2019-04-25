@@ -63,15 +63,11 @@ export default {
                 let response = await CourseService.getCourses();
                 console.log(response.data);
                 this.cursos = response.data;
-            },
-            async asistenciaCursos() {
-                let response = await CourseService.getCourses();
-                console.log(response.data);
-                this.cursos = response.data;
-            }      
+            }   
         },
         beforeMount() {
             this.cargarCursos();
+            console.log('BeforeMount');
         }
 };
 </script>
