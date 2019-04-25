@@ -18,16 +18,16 @@ router.post("/", async (req, res) => {
 });
 
 //Update course
-router.put("/:id", async (req, res) => {
-    await Curso.findByIdAndUpdate(req.params.id, req.body);
+router.put("/", async (req, res) => {
+    await Curso.findByIdAndUpdate(req.body._id, req.body);
     res.json({
         status: 'Curso Actualizado'
     })
 });
 
 //Delete user
-router.delete("/:id", async (req, res) => {
-    await Curso.findByIdAndDelete(req.params.id);
+router.delete("/", async (req, res) => {
+    await Curso.findByIdAndDelete(req.body._id);
     res.json({
         status: 'Curso Eliminado'
     })

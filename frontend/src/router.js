@@ -2,7 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
-import Asistencia from "./views/Asistencia.vue";
 
 import store from "./store";
 import LoginService from "@/services/AuthenticateService";
@@ -23,11 +22,6 @@ const router = new Router({
       path: "/home",
       name: "home",
       component: Home
-    },
-    {
-      path: "/asistencia",
-      name: "asistencia",
-      component: Asistencia
     }
   ]
 });
