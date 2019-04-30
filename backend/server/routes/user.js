@@ -24,5 +24,10 @@ router.delete("/:id", async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
   res.status(200).send();
 });
-
+//Get name
+router.get("/", async (req, res) => {
+  const users = await User.findById(req.params.id);
+  console.log(req)
+  // res.json(users);
+});
 module.exports = router;

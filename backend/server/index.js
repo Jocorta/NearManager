@@ -14,15 +14,17 @@ mongoose
 app.use(bodyParser.json());
 app.use(cors());
 
-require("./passport");
+
 
 const users = require("./routes/user");
 const login = require("./routes/login");
 const authenticate = require("./routes/authenticate");
+const asistencias = require("./routes/asistencia");
 
 app.use("/api/users", users);
 app.use("/api/login", login);
 app.use("/api/authenticate", authenticate);
+app.use("/api/asistencias", asistencias);
 
 const port = process.env.PORT || 8081;
 
