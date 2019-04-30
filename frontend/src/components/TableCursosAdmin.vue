@@ -163,10 +163,11 @@ import UserService from "@/services/UserService"
       },
       deleteItem (item) {
         const index = this.cursos.indexOf(item)
-        this.deletedIndex = this.cursos.indexOf(item)
-        this.toDeleteItem = Object.assign({}, item)
-        confirm('Are you sure you want to delete this item?') && this.cursos.splice(index, 1)
-        this.deleteCurso(this.toDeleteItem)
+        let conf = confirm('Are you sure you want to delete this item?') 
+        if(conf){
+          this.deleteCurso(item._id)
+          this.cursos.splice(index, 1)
+        }
       },
       close () {
         this.dialog = false
@@ -208,9 +209,9 @@ import UserService from "@/services/UserService"
         await CourseService.updateCourse(id,curso);
         this.cargarCursos();
       },
-      async deleteCurso(curso) {
-        console.log(curso);
-        await CourseService.deleteCourse(curso);
+      async deleteCurso(idCurso) {
+        console.log(idCurso);
+        await CourseService.deleteCourse(iDCurso);
         this.cargarCursos();
       },
       filtrarUsuarios(){

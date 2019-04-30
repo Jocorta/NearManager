@@ -10,7 +10,7 @@ export default{
     updateCourse(id,datos) {
         return Api().put("courses",datos,id);
     },
-    deleteCourse(datos) {
-        return Api().delete("courses",datos);
+    deleteCourse(id) {
+        return Api().delete(`courses/${id}`);
     }
 };

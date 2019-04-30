@@ -27,7 +27,7 @@ router.put("/", async (req, res) => {
 
 //Delete user
 router.delete("/", async (req, res) => {
-    await Curso.findByIdAndDelete(req.body._id);
+    await Curso.findByIdAndDelete(req.params.id);
     res.json({
         status: 'Curso Eliminado'
     })
