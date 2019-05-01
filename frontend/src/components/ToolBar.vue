@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer v-model="drawer" fixed app class="indigo" dark>
       <v-list dense>
-        <v-list-tile @click="null">
+        <v-list-tile @click="irHome">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
@@ -10,7 +10,7 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="null">
+        <v-list-tile @click="irAsistencia">
           <v-list-tile-action>
             <v-icon>contact_mail</v-icon>
           </v-list-tile-action>
@@ -42,6 +42,12 @@ export default {
       localStorage.clear();
       this.$store.dispatch("setToken", null);
       this.$store.dispatch("setUser", null);
+      this.$router.push("/");
+    },
+    irAsistencia(){
+      this.$router.push("/Asistencia");
+    },
+    irHome(){
       this.$router.push("/");
     }
   }
