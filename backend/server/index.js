@@ -14,8 +14,6 @@ mongoose
 app.use(bodyParser.json());
 app.use(cors());
 
-
-
 const users = require("./routes/user");
 const login = require("./routes/login");
 const authenticate = require("./routes/authenticate");

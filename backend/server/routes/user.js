@@ -15,8 +15,8 @@ router.post("/", async (req, res) => {
   res.status(201).send();
 });
 //Update user
-router.put("/:id", async (req, res) => {
-  await User.findByIdAndUpdate(req.params.id, req.body);
+router.put("/", async (req, res) => {
+  await User.findByIdAndUpdate(req.body._id, req.body);
   res.status(202).send();
 });
 //Delete user
@@ -25,9 +25,9 @@ router.delete("/:id", async (req, res) => {
   res.status(200).send();
 });
 //Get name
-router.get("/", async (req, res) => {
-  const users = await User.findById(req.params.id);
-  console.log(req)
+router.get("/:id", async (req, res) => {
+  await User.findById(req.params.id);
+  console.log(req);
   // res.json(users);
 });
 module.exports = router;
