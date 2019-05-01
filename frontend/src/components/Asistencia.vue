@@ -11,7 +11,7 @@
               v-model="e6"
               :items="maestros"
               :menu-props="{ maxHeight: '400' }"
-              label="Select"
+              label="Maestros"
               multiple
               hint="Seleccione los maestros para filtrar"
               persistent-hint
@@ -26,7 +26,7 @@
             <v-select
               v-model="e7"
               :items="cursos"
-              label="Select"
+              label="Cursos"
               chips
               hint="Seleccione el curso"
               persistent-hint
@@ -69,6 +69,7 @@
 <script>
 import AsistenciaService from "@/services/AsistenciaService";
 import UserService from "@/services/UserService";
+import CourseService from "@/services/CourseService";
 export default {
   name: "Asistencia",
   data: () => ({
@@ -87,8 +88,8 @@ export default {
     e6: [],
     e7: "",
     asistencias: [],
-    maestros: ['maestro1', 'maestro2'],
-    cursos: ['curso1', 'curso2'],
+    maestros: [],
+    cursos: [],
     asistenciasFiltradas: []
 
   }),
@@ -98,9 +99,20 @@ export default {
       this.asistencias = response.data;
 
     },
+    async cargarUsuarios() {
+      let response = await UserService.getUsers();
+      response.data.forEach(element => {
+        this.maestros.push(element.nombre);
+      });
+    },
+    async cargarCursos() {
+      let response = await CourseService.getCourses();
+      response.data.forEach(element => {
+        this.cursos.push(element.nombre);
+      });
+    },
     buscar(){
       // Va a quitar todos los elementos de asistencias[] que no tengan las selecciones del usuario para filtrar:
-      
       this.asistencias.forEach(element => {
         if (this.e6.includes(element.userName) && this.e7 == element.curso) {
           this.asistenciasFiltradas.push(element);
@@ -112,7 +124,8 @@ export default {
   
   beforeMount() {
     this.cargarAsistencias();
-
+    this.cargarUsuarios();
+    this.cargarCursos();
   }
 };
 </script>
