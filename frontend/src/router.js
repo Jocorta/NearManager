@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Asistencia from "./views/Asistencia.vue";
+import Curso from "./views/Curso.vue";
 
 import store from "./store";
 import LoginService from "@/services/AuthenticateService";
@@ -28,6 +29,11 @@ const router = new Router({
       path: "/asistencia",
       name: "asistencia",
       component: Asistencia
+    },
+    {
+      path: "/cursos",
+      name: "cursos",
+      component: Curso
     }
   ]
 });

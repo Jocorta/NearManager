@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
 const { Schema } = mongoose
 
-const User = new Schema({
+const Curso = new Schema({
     anio: Number,
 	nombre: String,
 	encargado:String,
@@ -12,4 +12,4 @@ const User = new Schema({
     collection: 'Cursos'
 })
 
-module.exports =  mongoose.model('User', User)
+module.exports =  mongoose.model('Curso', Curso)

@@ -16,11 +16,13 @@ app.use(cors());
 
 const users = require("./routes/user");
 const login = require("./routes/login");
+const cursos = require("./routes/course");
 const authenticate = require("./routes/authenticate");
 const asistencias = require("./routes/asistencia");
 
 app.use("/api/users", users);
 app.use("/api/login", login);
+app.use("/api/courses", cursos);
 app.use("/api/authenticate", authenticate);
 app.use("/api/asistencias", asistencias);
 
