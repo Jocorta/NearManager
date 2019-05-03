@@ -7,17 +7,19 @@
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
+            <v-list-tile-title>{{label}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="irAsistencia">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Contact</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <template v-if="admin">
+          <v-list-tile @click="irCursos">
+            <v-list-tile-action>
+              <v-icon>library_books</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Cursos</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
@@ -32,10 +34,13 @@
 </template>
 
 <script>
+import AuthenticateService from "@/services/AuthenticateService";
 export default {
   name: "ToolBar",
   data: () => ({
-    drawer: null
+    drawer: null,
+    admin: true,
+    label: ""
   }),
   methods: {
     salir() {
@@ -44,12 +49,34 @@ export default {
       this.$store.dispatch("setUser", null);
       this.$router.push("/");
     },
-    irAsistencia(){
-      this.$router.push("/Asistencia");
+    irCursos() {
+      this.$router.push("cursos");
     },
-    irHome(){
-      this.$router.push("/");
+    async checarTipo() {
+      let res = await AuthenticateService.authenticate({
+        token: localStorage.getItem("token")
+      });
+      if (res.data.tipo === "Administrador") {
+        this.admin = true;
+        this.label = "Administrar Usuarios";
+      } else {
+        this.admin = false;
+        this.label = "Asistencia";
+      }
+    },
+    async irHome() {
+      let res = await AuthenticateService.authenticate({
+        token: localStorage.getItem("token")
+      });
+      if (res.data.tipo === "Administrador") {
+        this.$router.push("home");
+      } else {
+        this.$router.push("asistencia");
+      }
     }
+  },
+  beforeMount() {
+    this.checarTipo();
   }
 };
 </script>

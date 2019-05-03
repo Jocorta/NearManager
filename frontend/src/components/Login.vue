@@ -59,7 +59,14 @@ export default {
         }
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
-        this.$router.push("home");
+        let res = await AuthenticateService.authenticate({
+          token: localStorage.getItem("token")
+        });
+        if (res.data.tipo === "Administrador") {
+          this.$router.push("home");
+        } else {
+          this.$router.push("asistencia");
+        }
       }
     }
   }

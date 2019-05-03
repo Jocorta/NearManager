@@ -7,9 +7,9 @@ const router = express.Router();
 router.post("/", (req, res) => {
   jwt.verify(req.body.token, "secret", function(err, decoded) {
     if (!decoded || err) {
-      res.send(false);
+      res.send({ log: false, tipo: "null" });
     } else {
-      res.send(true);
+      res.send({ log: true, tipo: decoded.tipo });
     }
   });
 });
