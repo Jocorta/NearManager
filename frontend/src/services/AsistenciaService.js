@@ -6,5 +6,8 @@ export default {
   },
   addAsistencia(datos) {
     return Api().post("asistencias", datos);
-  }
+  },
+  updateAsistencia(id,datos) {
+    return Api().put("asistencias",datos,id);
+},
 };

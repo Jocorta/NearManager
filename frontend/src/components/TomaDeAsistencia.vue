@@ -112,7 +112,7 @@ import AsistenciaService from "@/services/AsistenciaService"
         { text: 'Personas Inscritas', value: 'personas',align: 'right' },
         { text: 'Actions', value: 'name', sortable: false }
       ],
-      tipoDeAsistencia:["Asistencia","Retardo","Falta"],
+      tipoDeAsistencia:["Asistencia","Retardo","Falta", "Justificado"],
       tomaDeAsistencia: [],
       cursos: [],
       instructores: [],

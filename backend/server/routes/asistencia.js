@@ -15,8 +15,10 @@ router.post("/", async (req, res) => {
   res.status(201).send();
 });
 //Update Asistencia
-router.put("/:id", async (req, res) => {
-  await Asistencia.findByIdAndUpdate(req.params.id, req.body);
+router.put("/", async (req, res) => {
+  console.log(req.body);
+  await Asistencia.findByIdAndUpdate(req.body._id, req.body);
+
   res.status(202).send();
 });
 //Delete Asistencia
