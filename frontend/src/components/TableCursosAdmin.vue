@@ -63,7 +63,7 @@
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <td>{{ props.item.nombre }}</td>
+        <td><a href="/asistencia">{{ props.item.nombre }}</a></td>
         <td class="text-xs-right">{{ props.item.encargado }}</td>
         <td class="text-xs-right">{{ props.item.anio }}</td>
         <td class="text-xs-right">{{ props.item.personas.length }}</td>

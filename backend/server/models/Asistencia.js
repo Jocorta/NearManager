@@ -6,11 +6,9 @@ const Asistencia = new Schema({
     year: String,
     month: String,
     day: String,
-    userName: String,
-    curso: String,
-    tipoAsistencia: String,
+    Asistentes:[],   
+    curso: String,    
     rutaImagen: String,
-    carrera: String
 },
 {
     collection: 'Asistencias'

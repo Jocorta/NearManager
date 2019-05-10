@@ -18,7 +18,7 @@
       :search="search"
     >
       <template v-slot:items="props">
-        <td>{{ props.item.nombre }}</td>
+        <td><a @click="cursoAsistencia(props.item)">{{ props.item.nombre }}</a></td>
         <td class="text-xs-center">{{ props.item.encargado }}</td>
         <td class="text-xs-center">{{ props.item.anio }}</td>
       </template>
@@ -49,7 +49,14 @@ export default {
       { text: "Encargado", value: "encargado", align: "center" },
       { text: "Año", value: "anio", align: "center" },
     ],
-    cursos: []
+    cursos: [],
+    editedIndex: -1,
+    editedItem: {
+        nombre: '',
+        encargado: '',
+        anio: 2019,
+        personas: []
+      },
   }),
   computed: {
     pages() {
@@ -63,7 +70,13 @@ export default {
                 let response = await CourseService.getCourses();
                 console.log(response.data);
                 this.cursos = response.data;
-            }   
+            },
+            cursoAsistencia(item){
+              this.editedIndex = this.cursos.indexOf(item)
+              this.editedItem = Object.assign({}, item)
+              this.$store.dispatch("setCursoAsist", item.nombre); 
+              this.$router.push("asistencia");
+            }  
         },
         beforeMount() {
             this.cargarCursos();

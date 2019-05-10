@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isUserLogged: false
+    isUserLogged: false,
+    cursoAsist: null
   },
   mutations: {
     setToken(state, token) {
@@ -20,6 +21,13 @@ export default new Vuex.Store({
     },
     setUser(state, user) {
       state.user = user;
+    },
+    setCursoAsist(state, cursoAsist)
+    {
+      state.cursoAsist = cursoAsist;
+    },
+    getCursoAsist() {
+      return state.cursoAsist
     }
   },
   actions: {
@@ -28,6 +36,9 @@ export default new Vuex.Store({
     },
     setUser({ commit }, user) {
       commit("setUser", user);
+    },
+    setCursoAsist({ commit }, cursoAsist) {
+      commit("setCursoAsist", cursoAsist);
     }
   }
 });

@@ -84,15 +84,15 @@
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="asistencias" :search="search">
+      <v-data-table :headers="headers" :items="tablaDatos" :search="search">
         <template v-slot:items="props">
-          <td>{{ props.item.userName }}</td>
+          <td>{{ props.item.userName}}</td>
           <td class="text-xs-center">{{ props.item.day }}/{{ props.item.month }}/{{ props.item.year }}</td>
           <td class="text-xs-center">{{ props.item.carrera }}</td>
           <td class="text-xs-center">{{ props.item.curso }}</td>
           <td class="text-xs-center">{{ props.item.tipoAsistencia }}</td>
           <td class="text-xs-center">{{ props.item.rutaImagen }}</td>
-          <td class="justify-center layout px-0">
+          <td class="justify-center layout px-0" >
             <v-icon
               small
               class="mr-2"
@@ -150,26 +150,38 @@ export default {
       day: "",
       userName: "",
       curso: "",
+      carrera: "",
       tipoAsistencia: "",
       rutaImagen: "",
-      carrera: ""
     },
     e6: [],
     e7: "",
     asistencias: [],
-    tipoDeAsistencia:["Asistencia","Retardo","Falta", "Justificado"],
-    asistenciaSelect: "",
     maestros: [],
     cursos: [],
-    editedIndex: -1,
 
+    asistenciasCursales: [],
+    tablaDatos: [],
+
+    tipoDeAsistencia:["Asistencia","Retardo","Falta", "Justificado"],
+    asistenciaSelect: "",
+
+    editedIndex: -1,
     asistenciasFiltradas: []
 
   }),
   methods: {
     async cargarAsistencias() {
       let response = await AsistenciaService.getAsistencias();
-      this.asistencias = response.data;
+      this.asistencias = response.data;    
+      this.asistencias.forEach(element => {
+        if(element.curso === this.$store.state.cursoAsist)
+        {
+          this.asistenciasCursales.push(element);
+        }
+      });
+      this.asistencias = this.asistenciasCursales;
+      this.llenarTabla()
     },
     async cargarUsuarios() {
       let response = await UserService.getUsers();
@@ -214,17 +226,30 @@ export default {
     async updateAsistencia(id,curso) {
       await AsistenciaService.updateAsistencia(id,curso);
       this.cargarAsistencias();
+    },
+    llenarTabla(){
+      this.asistencias.forEach(element => {
+        element.Asistentes.forEach(element2 => {
+          this.tablaDatos.push({
+            year: element.año,
+            month: element.mes,
+            day: element.dia,
+            userName: element2[0],
+            curso: element.curso,
+            carrera: element2[1],
+            tipoAsistencia: element2[2],
+            rutaImagen: element.rutaImagen
+          })
+        });
+      });
+      console.log(this.tablaDatos)
     }
-
-
-
-
   },
   
   beforeMount() {
     this.cargarAsistencias();
     this.cargarUsuarios();
-    this.cargarCursos();
+    this.cargarCursos();   
   }
 };
 </script>
