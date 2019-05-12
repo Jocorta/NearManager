@@ -30,6 +30,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn flat color="indigo" dark @click="registrar">Registar</v-btn>
             <v-btn color="indigo" dark @click="login">Acceder</v-btn>
           </v-card-actions>
         </v-card>
@@ -68,6 +69,9 @@ export default {
           this.$router.push("asistencia");
         }
       }
+    },
+    registrar() {
+      this.$router.push("registrar");
     }
   }
 };

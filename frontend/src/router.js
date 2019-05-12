@@ -5,6 +5,7 @@ import Login from "./views/Login.vue";
 import Asistencia from "./views/Asistencia.vue";
 import Curso from "./views/Curso.vue";
 import TomaDeAsistencia from "./views/TomaDeAsistencia.vue";
+import Registrar from "./views/Registrar.vue";
 
 import AuthenticateService from "./services/AuthenticateService";
 
@@ -38,6 +39,11 @@ const router = new Router({
       path: "/cursos",
       name: "cursos",
       component: Curso
+    },
+    {
+      path: "/registrar",
+      name: "registrar",
+      component: Registrar
     }
   ]
 });
@@ -46,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
   let res = await AuthenticateService.authenticate({
     token: localStorage.getItem("token")
   });
-  if (to.path !== "/" && !res.data.log) {
+  if (to.path !== "/" && !res.data.log && to.path !== "/registrar") {
     next("/");
   } else if (to.path === "/" && res.data.log) {
     if (res.data.tipo === "Administrador") {

@@ -144,6 +144,7 @@ export default {
       this.editedIndex = this.usuarios.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.$store.dispatch("setPrueba", "hello");
     },
 
     deleteItem(item) {
