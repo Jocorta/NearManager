@@ -3,10 +3,10 @@ mongoose.set('useFindAndModify', false)
 const { Schema } = mongoose
 
 const Asistencia = new Schema({
-    year: String,
-    month: String,
-    day: String,
-    Asistentes:[],   
+    date: String,
+    userName: String,
+    carrera: String,
+    tipoAsistencia: String,
     curso: String,    
     rutaImagen: String,
 },

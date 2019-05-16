@@ -76,13 +76,6 @@
         <td class="text-xs-right">{{ props.item.anio }}</td>
         <td class="text-xs-right">{{ props.item.personas.length }}</td>
         <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
           <v-btn color="primary" dark class="mb-2" @click="editItem(props.item)">Tomar Asistencia</v-btn>
         </td>
       </template>
@@ -97,6 +90,8 @@
 import CourseService from "@/services/CourseService"
 import UserService from "@/services/UserService"
 import AsistenciaService from "@/services/AsistenciaService"
+
+
   export default {          
     data: () => ({
       dialog: false,
@@ -138,9 +133,7 @@ import AsistenciaService from "@/services/AsistenciaService"
         personas: []
       },
       datosAsistencia:{
-        year: "",
-        month: "",
-        day: "",
+        date: "",
         userName: "",
         curso: "",
         tipoAsistencia: "",
@@ -196,9 +189,7 @@ import AsistenciaService from "@/services/AsistenciaService"
               rutaImagen: "",
               carrera: ""
             };
-            this.datosAsistencia.year            = yyyy;
-            this.datosAsistencia.month           = mm;
-            this.datosAsistencia.day             = dd;
+            this.datosAsistencia.date = yyyy + "/" + mm + "/" + dd
             this.obtenerUsuario(item);
             this.datosAsistencia.userName        = this.magic;
             // console.log(this.datosAsistencia.userName);

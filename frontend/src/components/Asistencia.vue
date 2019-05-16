@@ -3,7 +3,6 @@
     <template>
       <v-container fluid>
         <v-layout row wrap align-center>
-
         <v-dialog v-model="dialog" max-width="600px" >
           <v-card>
             <v-card-title>
@@ -12,7 +11,7 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field v-model="editedItem.userName" label="Username del maestro"></v-text-field>
+                    <v-text-field v-model="editedItem.userName" label="Username del maestro" disabled></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4><!--TODO: Aqui nesecita cargar los usuarios de tipo encargado -->
                     <v-select
@@ -31,66 +30,21 @@
             </v-card-actions>
           </v-card>
       </v-dialog>
-
-
-
-
-
-
-
-
-
-
-
-          <v-flex xs12 sm6>
-            <v-subheader v-text="'Usuario'"></v-subheader>
-          </v-flex>
-          <v-flex xs12 sm6>
-            <v-select
-              v-model="e6"
-              :items="maestros"
-              :menu-props="{ maxHeight: '400' }"
-              label="Maestros"
-              multiple
-              hint="Seleccione los maestros para filtrar"
-              persistent-hint
-            ></v-select>
-          </v-flex>
-
-          <v-flex xs12 sm6>
-            <v-subheader v-text="'Curso'"></v-subheader>
-          </v-flex>
-
-          <v-flex xs12 sm6>
-            <v-select
-              v-model="e7"
-              :items="cursos"
-              label="Cursos"
-              chips
-              hint="Seleccione el curso"
-              persistent-hint
-            ></v-select>
-          </v-flex>
-          <v-flex xs12 wrap text-xs-right>
-              <v-btn large color="primary" v-on:click="buscar">Buscar</v-btn>
-            </v-flex>
         </v-layout>
       </v-container>
-    </template>
-    
+    </template> 
     <v-card flat>
       <v-card-title>
-        Asistencias
+        <h1>Asistencias del Curso: {{$store.state.cursoAsist}}</h1>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="tablaDatos" :search="search">
+      <v-data-table :headers="headers" :items="asistenciasCursales" :search="search">
         <template v-slot:items="props">
           <td>{{ props.item.userName}}</td>
-          <td class="text-xs-center">{{ props.item.day }}/{{ props.item.month }}/{{ props.item.year }}</td>
+          <td class="text-xs-center">{{ props.item.date}}</td>
           <td class="text-xs-center">{{ props.item.carrera }}</td>
-          <td class="text-xs-center">{{ props.item.curso }}</td>
-          <td class="text-xs-center">{{ props.item.tipoAsistencia }}</td>
+          <td class="text-xs-center">{{ props.item.tipoAsistencia}}</td>
           <td class="text-xs-center">{{ props.item.rutaImagen }}</td>
           <td class="justify-center layout px-0" >
             <v-icon
@@ -127,9 +81,8 @@ export default {
     selected: [],
     headers: [
       { text: "Usuario", value: "userName", align: "left" },
-      { text: "Date", value: "date", align: "center" },
+      { text: "Dia", value: "date", align: "center" },
       { text: "Carrera", value: "carrera", align: "center" },
-      { text: "Curso", value: "curso", align: "center" },
       { text: "Tipo de Asistencia", value: "tipoAsistencia", align: "center" },
       { text: "Imagen", value: "rutaImagen", align: "center" },
       { text: 'Actions', value: 'name', sortable: false }
@@ -144,34 +97,29 @@ export default {
         val || this.close()
       }
     },
-    editedItem: {
-      year: "",
-      month: "",
-      day: "",
+    editedItem: { //formato de tabla
+      date: "",
       userName: "",
       curso: "",
       carrera: "",
       tipoAsistencia: "",
       rutaImagen: "",
     },
-    e6: [],
-    e7: "",
-    asistencias: [],
-    maestros: [],
-    cursos: [],
+    asistencias: [], // arreglo de asistencias completas
+    maestros: [], //arreglo de maestros completo
+    cursos: [], // arreglo de cursos completo
 
-    asistenciasCursales: [],
-    tablaDatos: [],
+    asistenciasCursales: [], //arreglo con solo las asistencias de este curso
 
     tipoDeAsistencia:["Asistencia","Retardo","Falta", "Justificado"],
-    asistenciaSelect: "",
+    asistenciaSelect: "", //donde se guarda resultado de combobox 
 
-    editedIndex: -1,
-    asistenciasFiltradas: []
-
+    editedIndex: -1
   }),
   methods: {
     async cargarAsistencias() {
+      this.asistencias = [];
+      this.asistenciasCursales = [];
       let response = await AsistenciaService.getAsistencias();
       this.asistencias = response.data;    
       this.asistencias.forEach(element => {
@@ -180,34 +128,11 @@ export default {
           this.asistenciasCursales.push(element);
         }
       });
-      this.asistencias = this.asistenciasCursales;
-      this.llenarTabla()
-    },
-    async cargarUsuarios() {
-      let response = await UserService.getUsers();
-      response.data.forEach(element => {
-        this.maestros.push(element.nombre);
-      });
-    },
-    async cargarCursos() {
-      let response = await CourseService.getCourses();
-      response.data.forEach(element => {
-        this.cursos.push(element.nombre);
-      });
     },
     editItem (item) {
-      this.editedIndex = this.asistencias.indexOf(item);
+      this.editedIndex = this.asistenciasCursales.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
-    },
-    buscar(){
-      // Va a quitar todos los elementos de asistencias[] que no tengan las selecciones del usuario para filtrar:
-      this.asistencias.forEach(element => {
-        if (this.e6.includes(element.userName) && this.e7 == element.curso) {
-          this.asistenciasFiltradas.push(element);
-        }
-      });
-      this.asistencias = this.asistenciasFiltradas;
     },
     close () {
       this.dialog = false
@@ -218,38 +143,19 @@ export default {
     },
     save () {
       //Edit
-      this.editedItem.tipoAsistencia = this.asistenciaSelect;
-      Object.assign(this.asistencias[this.editedIndex], this.editedItem);
-      this.updateAsistencia(this.editedItem._id,this.editedItem);
+      this.editedItem.tipoAsistencia = this.asistenciaSelect; //actualiza la asistencia seleccioonada
+      Object.assign(this.asistenciasCursales[this.editedIndex], this.editedItem); //salva la asistencia editada en el arreglo de tablaDatos
+      this.updateAsistencia(this.editedItem._id,this.editedItem); // actualiza en la bd con el formato
       this.close();
     },
     async updateAsistencia(id,curso) {
-      await AsistenciaService.updateAsistencia(id,curso);
+      await AsistenciaService.updateAsistencia(id,curso);    
       this.cargarAsistencias();
     },
-    llenarTabla(){
-      this.asistencias.forEach(element => {
-        element.Asistentes.forEach(element2 => {
-          this.tablaDatos.push({
-            year: element.año,
-            month: element.mes,
-            day: element.dia,
-            userName: element2[0],
-            curso: element.curso,
-            carrera: element2[1],
-            tipoAsistencia: element2[2],
-            rutaImagen: element.rutaImagen
-          })
-        });
-      });
-      console.log(this.tablaDatos)
-    }
   },
   
   beforeMount() {
     this.cargarAsistencias();
-    this.cargarUsuarios();
-    this.cargarCursos();   
   }
 };
 </script>

@@ -28,6 +28,9 @@
                     item-text="nombre"
                     label="Instructor"
                   ></v-select>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.anio" label="Año del Curso"></v-text-field>
                 </v-flex>               
               </v-layout>
               <v-container align="center">
@@ -63,7 +66,7 @@
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <td><a href="/asistencia">{{ props.item.nombre }}</a></td>
+        <td><a @click="cursoAsistencia(props.item)">{{ props.item.nombre }}</a></td>
         <td class="text-xs-right">{{ props.item.encargado }}</td>
         <td class="text-xs-right">{{ props.item.anio }}</td>
         <td class="text-xs-right">{{ props.item.personas.length }}</td>
@@ -161,18 +164,26 @@ import UserService from "@/services/UserService"
         }, 300)
       },
       save () {
-        if (this.editedIndex > -1) {
-          //Edit
-          this.editedItem.personas = this.inscritos;
-          Object.assign(this.cursos[this.editedIndex], this.editedItem)
-          this.updateCurso(this.editedItem._id,this.editedItem)
-        } else {
-          //Nuevo
-          this.editedItem.personas = this.inscritos;
-          this.cursos.push(this.editedItem)
-          this.crearCurso(this.editedItem)
+        if(this.editedItem.nombre==="" || this.editedItem.encargado==="" || this.editedItem.anio===""){
+          alert("Llenar campos vacios para continuar");
+        }else{
+          if(this.contains(this.cursos,this.editedItem.nombre)==true){
+            alert("Curso ya existente");
+          }else{
+            if (this.editedIndex > -1) {
+            //Edit
+            this.editedItem.personas = this.inscritos;
+            Object.assign(this.cursos[this.editedIndex], this.editedItem)
+            this.updateCurso(this.editedItem._id,this.editedItem)
+            } else {
+              //Nuevo
+              this.editedItem.personas = this.inscritos;
+              this.cursos.push(this.editedItem)
+              this.crearCurso(this.editedItem)
+            }
+          this.close()
+          }
         }
-        this.close()
       },
       async cargarCursos() {
         let response = await CourseService.getCourses();
@@ -208,6 +219,21 @@ import UserService from "@/services/UserService"
       limpiar(){
         this.inscritos = [];
         console.log('Limpiado');
+      },
+      cursoAsistencia(item){
+        this.editedIndex = this.cursos.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.$store.dispatch("setCursoAsist", item.nombre); 
+        this.$router.push("asistencia");
+      },
+      contains(array, string) {
+        for (var i = 0; i < array.length; i++) {
+
+          if (array[i].nombre === string) {
+            return true;
+          }
+        }
+        return false;
       }
     },
     beforeMount() {

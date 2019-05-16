@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Asistencia from "./views/Asistencia.vue";
 import Curso from "./views/Curso.vue";
+import CursoAdmin from "./views/AdministracionCurso.vue";
 import TomaDeAsistencia from "./views/TomaDeAsistencia.vue";
 import Registrar from "./views/Registrar.vue";
 
@@ -39,6 +40,11 @@ const router = new Router({
       path: "/cursos",
       name: "cursos",
       component: Curso
+    },
+    {
+      path: "/cursosAdmin",
+      name: "cursosAdmin",
+      component: CursoAdmin
     },
     {
       path: "/registrar",
