@@ -7,6 +7,7 @@ import Curso from "./views/Curso.vue";
 import CursoAdmin from "./views/AdministracionCurso.vue";
 import TomaDeAsistencia from "./views/TomaDeAsistencia.vue";
 import Registrar from "./views/Registrar.vue";
+import Estadisticos from "./views/Estadisticos.vue";
 
 import AuthenticateService from "./services/AuthenticateService";
 
@@ -50,6 +51,11 @@ const router = new Router({
       path: "/registrar",
       name: "registrar",
       component: Registrar
+    },
+    {
+      path: "/estadisticos",
+      name: "estadisticos",
+      component: Estadisticos
     }
   ]
 });
