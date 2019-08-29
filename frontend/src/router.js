@@ -2,12 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
-import Asistencia from "./views/Asistencia.vue";
-import Curso from "./views/Curso.vue";
-import CursoAdmin from "./views/AdministracionCurso.vue";
-import TomaDeAsistencia from "./views/TomaDeAsistencia.vue";
 import Registrar from "./views/Registrar.vue";
-import Estadisticos from "./views/Estadisticos.vue";
 
 import AuthenticateService from "./services/AuthenticateService";
 
@@ -28,34 +23,9 @@ const router = new Router({
       component: Home
     },
     {
-      path: "/asistencia",
-      name: "asistencia",
-      component: Asistencia
-    },
-    {
-      path: "/tomadeasistencia",
-      name: "tomadeasistencia",
-      component: TomaDeAsistencia
-    },
-    {
-      path: "/cursos",
-      name: "cursos",
-      component: Curso
-    },
-    {
-      path: "/cursosAdmin",
-      name: "cursosAdmin",
-      component: CursoAdmin
-    },
-    {
       path: "/registrar",
       name: "registrar",
       component: Registrar
-    },
-    {
-      path: "/estadisticos",
-      name: "estadisticos",
-      component: Estadisticos
     }
   ]
 });
@@ -67,12 +37,11 @@ router.beforeEach(async (to, from, next) => {
   if (to.path !== "/" && !res.data.log && to.path !== "/registrar") {
     next("/");
   } else if (to.path === "/" && res.data.log) {
-    if (res.data.tipo === "Administrador") {
-      next("/home");
-    } else {
-      next("/asistencia");
-    }
-  } else if (
+    
+    next("/home");
+    
+  }
+  else if (
     to.path !== "/asistencia" &&
     res.data.log &&
     res.data.tipo === "Encargado de Curso"

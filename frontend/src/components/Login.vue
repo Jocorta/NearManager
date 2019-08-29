@@ -4,7 +4,7 @@
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-toolbar dark color="indigo">
-            <v-toolbar-title>Iniciar Sesion</v-toolbar-title>
+            <v-toolbar-title>Near Manager Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form autocomplete="off">
@@ -12,7 +12,7 @@
                 color="indigo"
                 prepend-icon="person"
                 name="login"
-                label="Usuario"
+                label="Username"
                 v-model="user"
               ></v-text-field>
               <v-text-field
@@ -22,7 +22,7 @@
                 id="password"
                 prepend-icon="lock"
                 name="password"
-                label="Contraseña"
+                label="Password"
                 :type="show ? 'text' : 'password'"
                 v-model="pass"
               ></v-text-field>
@@ -30,8 +30,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat color="indigo" dark @click="registrar">Registar</v-btn>
-            <v-btn color="indigo" dark @click="login">Acceder</v-btn>
+            <v-btn flat color="indigo" dark @click="registrar">Register</v-btn>
+            <v-btn color="indigo" dark @click="login">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -63,11 +63,7 @@ export default {
         let res = await AuthenticateService.authenticate({
           token: localStorage.getItem("token")
         });
-        if (res.data.tipo === "Administrador") {
-          this.$router.push("home");
-        } else {
-          this.$router.push("asistencia");
-        }
+        this.$router.push("home");
       }
     },
     registrar() {

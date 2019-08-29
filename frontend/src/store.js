@@ -21,14 +21,15 @@ export default new Vuex.Store({
     },
     setUser(state, user) {
       state.user = user;
-    },
-    setCursoAsist(state, cursoAsist)
-    {
-      state.cursoAsist = cursoAsist;
-    },
-    getCursoAsist() {
-      return state.cursoAsist
     }
+    // ,
+    // setCursoAsist(state, cursoAsist)
+    // {
+    //   state.cursoAsist = cursoAsist;
+    // },
+    // getCursoAsist() {
+    //   return state.cursoAsist
+    // }
   },
   actions: {
     setToken({ commit }, token) {
@@ -36,9 +37,10 @@ export default new Vuex.Store({
     },
     setUser({ commit }, user) {
       commit("setUser", user);
-    },
-    setCursoAsist({ commit }, cursoAsist) {
-      commit("setCursoAsist", cursoAsist);
     }
+    // ,
+    // setCursoAsist({ commit }, cursoAsist) {
+    //   commit("setCursoAsist", cursoAsist);
+    // }
   }
 });

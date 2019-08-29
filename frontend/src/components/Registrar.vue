@@ -2,32 +2,23 @@
   <div>
     <v-card flat>
       <v-card-title>
-        <span class="headline">Registro de Usuario</span>
+        <span class="headline">User Register</span>
       </v-card-title>
 
       <v-card-text>
         <v-container grid-list-md>
           <v-layout wrap>
             <v-flex xs12 sm6>
-              <v-text-field v-model="editedItem.nombre" label="Nombre Completo"></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6>
-              <v-autocomplete :items="carreras" v-model="editedItem.carrera" label="Carrera"></v-autocomplete>
-            </v-flex>
-            <v-flex xs12 sm6>
-              <v-text-field v-model="editedItem.telefono" label="Telefono"></v-text-field>
+              <v-text-field v-model="editedItem.nombre" label="Full Name"></v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
               <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
-              <v-select :items="tipos" v-model="editedItem.tipo" label="Tipo de Usuario"></v-select>
+              <v-text-field v-model="editedItem.usuario" label="Username"></v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
-              <v-text-field v-model="editedItem.usuario" label="Usuario"></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6>
-              <v-text-field v-model="editedItem.password" label="Contraseña"></v-text-field>
+              <v-text-field v-model="editedItem.password" label="Password"></v-text-field>
             </v-flex>
           </v-layout>
         </v-container>
@@ -35,8 +26,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="indigo" flat @click="close">Cancelar</v-btn>
-        <v-btn color="indigo" @click="save">Registrar</v-btn>
+        <v-btn color="indigo" flat @click="close">Cancel</v-btn>
+        <v-btn color="indigo" @click="save">Register</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -47,23 +38,15 @@ import UserService from "@/services/UserService";
 export default {
   name: "Table",
   data: () => ({
-    carreras: ["Sistemas", "Informatica", "Electrica"],
-    tipos: ["Administrador", "Encargado de Curso", "Maestro"],
     editedItem: {
       nombre: "",
-      carrera: "",
-      telefono: "",
       email: "",
-      tipo: "",
       password: "",
       usuario: ""
     },
     defaultItem: {
       nombre: "",
-      carrera: "",
-      telefono: "",
       email: "",
-      tipo: "",
       password: "",
       usuario: ""
     }
@@ -79,7 +62,7 @@ export default {
 
     async save() {
       await this.agregarUsuario(this.editedItem);
-      confirm("Se registro correctamente el usuario");
+      confirm("User register complete.");
       this.$router.push("/");
     }
   }
