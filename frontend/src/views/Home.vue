@@ -2,19 +2,19 @@
   <div>
     <ToolBar/>
     <v-content>
-      <Table/>
+      <Landing/>
     </v-content>
   </div>
 </template>
 
 <script>
 import ToolBar from "../components/ToolBar";
-import Table from "../components/Table";
+import Landing from "../components/Landing";
 
 export default {
   components: {
     ToolBar,
-    Table
+    Landing
   }
 };
 </script>

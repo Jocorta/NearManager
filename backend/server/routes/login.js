@@ -8,28 +8,30 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET || "secret";
 function jwtSignUser(user) {
   const SEMANA = 60 * 60 * 24 * 7;
-  return jwt.sign({ id: user._id, tipo: user.tipo }, jwtSecret, {
+  return jwt.sign({ id: 
+    user._id, 
+    //tipo: user.tipo 
+  }, 
+  jwtSecret, {
     expiresIn: SEMANA
   });
 }
 //login user
 router.post("/", async (req, res) => {
-  const { usuario, password } = req.body;
+  const { username, password } = req.body;
   await User.findOne(
     {
-      usuario: usuario
+      username: username
     },
     function(err, docs) {
       if (err) {
         res.send({ message: err, logged: false });
-      } else if (!docs) {
-        res.send({ message: "Este usuario no existe", logged: false });
-      } else if (docs.password !== password) {
-        res.send({ message: "Contraseña incorrecta", logged: false });
+      } else if (!docs || docs.password !== password) {
+        res.send({ message: "Password or Username incorrect", logged: false });
       } else {
         res.send({
           logged: true,
-          message: "Se inicio sesion correctamente",
+          message: "Login successful",
           user: docs,
           token: jwtSignUser(docs.toJSON())
         });

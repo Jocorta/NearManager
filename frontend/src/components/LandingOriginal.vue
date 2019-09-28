@@ -6,25 +6,26 @@
         <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
       </v-card-title> -->
       <v-toolbar flat color="white">
-        <v-toolbar-title></v-toolbar-title>
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
+        <v-toolbar-title>Wellcome to Near Manager! This is Landing.vue in Components</v-toolbar-title>
+        <!-- <v-divider class="mx-2" inset vertical></!-->
         <!-- <v-spacer></v-spacer> -->
-        <!-- <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
+        <v-dialog v-model="dialog" max-width="500px">
+          <!-- <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">Agregar</v-btn>
-          </template>
+          </template> -->
           <v-card>
             <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
+              <span class="headline">Create Project</span>
             </v-card-title>
 
             <v-card-text>
+              
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6>
                     <v-text-field v-model="editedItem.nombre" label="Nombre"></v-text-field>
                   </v-flex>
-                  <v-flex xs12 sm6>
+                  <!-- <v-flex xs12 sm6>
                     <v-autocomplete :items="carreras" v-model="editedItem.carrera" label="Carrera"></v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm6>
@@ -41,19 +42,36 @@
                   </v-flex>
                   <v-flex xs12 sm6>
                     <v-text-field v-model="editedItem.password" label="Contraseña"></v-text-field>
-                  </v-flex>
+                  </v-flex> -->
                 </v-layout>
               </v-container>
             </v-card-text>
+            
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
 
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-p>The following is the create project area for Near-Manager phase 1.</v-p>
+                </v-layout>
+                <v-flex xs12 sm6>
+                    <v-text-field v-model="editedItem.nombre" label="Nombre"></v-text-field>
+                  </v-flex>
+              </v-container>
+            </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-              <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+              <!-- <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn> -->
+              <v-btn color="orange" dark id="popover-target-1" flat >
+                Create Project
+              </v-btn>
+              <b-popover target="popover-target-1" triggers="hover" placement="top">
+                <template v-slot:title>Just a reminder...</template>
+                This will automatically assign you as the project leader! Make sure you are your company's project leader before creating the project.
+              </b-popover>
             </v-card-actions>
-          </v-card>
-        </v-dialog> -->
-      </v-toolbar>
       <!-- <v-data-table :headers="headers" :items="usuarios" :search="search">
         <template v-slot:items="props">
           <td>{{ props.item.nombre }}</td>
@@ -83,11 +101,14 @@
 <script>
 import UserService from "@/services/UserService";
 export default {
-  name: "Table",
+  name: "Project",
   data: () => ({
     dialog: false,
     search: "",
     pagination: {},
+    editedItem: {
+      name: ""
+    },
     selected: []
   }),
   methods: {

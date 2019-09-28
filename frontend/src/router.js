@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Registrar from "./views/Registrar.vue";
+import Project from "./views/Project.vue";
 
 import AuthenticateService from "./services/AuthenticateService";
 
@@ -21,6 +22,11 @@ const router = new Router({
       path: "/home",
       name: "home",
       component: Home
+    },
+    {
+      path: "/project",
+      name: "project",
+      component: Project
     },
     {
       path: "/registrar",

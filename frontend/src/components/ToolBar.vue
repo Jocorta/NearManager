@@ -10,6 +10,17 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+          <v-list-tile @click="irHome" v-for="(project, index) in projects" :key="index">
+            <v-list-tile-action>
+              <v-icon>list</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ project }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+
         <!-- <template v-if="admin">
           <v-list-tile @click="irCursos">
             <v-list-tile-action>
@@ -35,12 +46,14 @@
 
 <script>
 import AuthenticateService from "@/services/AuthenticateService";
+import ProjectService from "@/services/ProjectService"
 export default {
   name: "ToolBar",
   data: () => ({
     drawer: null,
     admin: true,
-    label: ""
+    label: "",
+    projects: []
   }),
   methods: {
     salir() {
@@ -69,10 +82,20 @@ export default {
         token: localStorage.getItem("token")
       });
         this.$router.push("home");
+    },
+    async getProjects() {
+      let response = await ProjectService.getProject();
+      this.projects = response.data;
+    },
+    async goProject(id) {
+      let res = await AuthenticateService.authenticate({
+        token: localStorage.getItem("token")
+      });
+        this.$router.push("project");
     }
   },
   beforeMount() {
-    this.checarTipo();
+    this.getProjects()
   }
 };
 </script>

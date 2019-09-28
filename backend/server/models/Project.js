@@ -6,20 +6,20 @@ const bcrypt = require("bcryptjs");
 mongoose.set("useFindAndModify", false);
 const { Schema } = mongoose;
 
-const User = new Schema(
+const Project = new Schema(
   {
-    username: String,
-    password: String,
-    email: String,
-    name: String
+    id_leader: String,
+    name: String,
+    members: Array,
+    files: Array
     
   },
   {
-    collection: "users"
+    collection: "projects"
   }
 );
 
-/*User.pre("save", function(next) {
+/*Project.pre("save", function(next) {
   if (!this.isModified("tipo")) {
     return next();
   }
@@ -27,8 +27,8 @@ const User = new Schema(
   next();
 });
 
-User.methods.compareTipo = function(plaintext, callback) {
+Project.methods.compareTipo = function(plaintext, callback) {
   return callback(null, bcrypt.compareSync(plaintext, this.tipo));
 };*/
 
-module.exports = mongoose.model("User", User);
+module.exports = mongoose.model("Project", Project);
