@@ -11,7 +11,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-          <v-list-tile @click="irHome" v-for="(project, index) in projects" :key="index">
+          <v-list-tile @click="goProject" v-for="(project, index) in projects" :key="index">
             <v-list-tile-action>
               <v-icon>list</v-icon>
             </v-list-tile-action>
@@ -68,32 +68,21 @@ export default {
       this.$store.dispatch("setUser", null);
       this.$router.push("/");
     },
-    // irCursos() {
-    //   this.$router.push("cursos");
-    // },
-    // async checarTipo() {
-    //   let res = await AuthenticateService.authenticate({
-    //     token: localStorage.getItem("token")
-    //   });
-    //   if (res.data.tipo === "Administrador") {
-    //     this.admin = true;
-    //     this.label = "Administrar Usuarios";
-    //   } else {
-    //     this.admin = false;
-    //     this.label = "Asistencia";
-    //   }
-    // },
     async irHome() {
       let res = await AuthenticateService.authenticate({
         token: localStorage.getItem("token")
       });
         this.$router.push("home");
     },
+    async goProject() {
+      let res = await AuthenticateService.authenticate({
+        token: localStorage.getItem("token")
+      });
+        this.$router.push("project");
+    },
     async obtainUserId() {
       let tk = VueJwtDecode.decode(this.token)
       this.user = tk["id"]
-      // console.log("usuario: ")
-      // console.log(this.user)
     },
     async getProjects() {
       let response = await ProjectService.getProject();

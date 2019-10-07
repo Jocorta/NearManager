@@ -1,14 +1,6 @@
 <template>
   <div>
     <b-card no-body>
-      <!-- <b-card-header header-tag="nav">
-        <b-nav card-header tabs>
-          <b-nav-item active>Active</b-nav-item>
-          <b-nav-item>Inactive</b-nav-item>
-          <b-nav-item disabled>Disabled</b-nav-item>
-        </b-nav>
-      </b-card-header> -->
-
       <b-card-body class="text-center">
         <b-card-title>Wellcome to Near Manager!</b-card-title>
         <b-card-sub-title>The following is the create project area for Near-Manager phase 1.</b-card-sub-title>
@@ -18,15 +10,7 @@
         <b-card-text>
           This is provisional and will have its own module with email confirmation.
         </b-card-text>
-        <!-- <b-button id="popover-target-1" variant="primary">Create Project</b-button>
-        <b-popover target="popover-target-1" triggers="hover" placement="bottom">
-          <template v-slot:title>Just a reminder...</template>
-          This will automatically assign you as the project leader! Make sure you are your company's project leader before creating the project.
-        </b-popover> -->
-
 <!-- TEST AREA -->
-
-
         <v-row justify="center">
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on }">
@@ -71,15 +55,18 @@
           </v-dialog>
         </v-row>
 
-
-
 <!-- END TEST AREA -->
+
+
 
       </b-card-body>
     </b-card>
-
   </div>
 </template>
+
+
+
+
 
 <script>
 import UserService from "@/services/UserService";
@@ -111,14 +98,9 @@ export default {
     async cargarUsuarios() {
       let response = await UserService.getUsers();
       this.usuarios = response.data;
-      // console.log("response data")
-      // console.log(response.data)
       this.usuarios.forEach(usuario => {
-        // console.log(usuario)
         this.nombres.push(usuario.name)
-        
       });
-      // console.log(this.usuarios)
     },
 
     async createProject(datos) {
@@ -130,31 +112,6 @@ export default {
       this.lider = tk["id"]
     },
 
-
-    // async editarUsuario(datos) {
-    //   await UserService.updateUser(datos);
-    // },
-
-    // async borrarUsuario(datos) {
-    //   await UserService.deleteUser(datos);
-    // },
-
-    // editItem(item) {
-    //   this.editedIndex = this.usuarios.indexOf(item);
-    //   this.editedItem = Object.assign({}, item);
-    //   this.dialog = true;
-    //   this.$store.dispatch("setPrueba", "hello");
-    // },
-
-    // deleteItem(item) {
-    //   const index = this.usuarios.indexOf(item);
-    //   let conf = confirm("¿Seguro que desea borrar este Usuario?");
-    //   if (conf) {
-    //     this.borrarUsuario(item._id);
-    //     this.usuarios.splice(index, 1);
-    //   }
-    // },
-
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -162,9 +119,11 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
+
     async createProject(datos) {
       await ProjectService.addProject(datos);
     },
+
     async save() {
       this.newProject.id_leader = this.lider
       var newArray = []
@@ -185,12 +144,10 @@ export default {
   beforeMount() {
     this.cargarUsuarios();
     this.obtainUserId();
-    // console.log("usuarios:")
-    // console.log(this.usuarios)
   },
   computed: {
     formTitle() {
-      // return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
+      
     }
   },
 
