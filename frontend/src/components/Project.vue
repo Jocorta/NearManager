@@ -6,7 +6,7 @@
         <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
       </v-card-title> -->
       <v-toolbar flat color="white">
-        <v-toolbar-title></v-toolbar-title>
+        <v-toolbar-title>{{ currentProject.name }}</v-toolbar-title>
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
         <!-- <v-spacer></v-spacer> -->
         <!-- <v-dialog v-model="dialog" max-width="500px">
@@ -82,15 +82,27 @@
 
 <script>
 import UserService from "@/services/UserService";
+import ProjectService from "@/services/ProjectService"
 export default {
   name: "Project",
   data: () => ({
     dialog: false,
     search: "",
     pagination: {},
-    selected: []
+    selected: [],
+    projects: [],
+    currentProject: {}
   }),
   methods: {
+    async getProjects() {
+      let response = await ProjectService.getProject();
+      this.projects = response.data;
+      this.projects.forEach(project => {
+        if (project._id == this.$route.params.id) {
+          this.currentProject = project
+        }
+      })
+    }
     // async cargarUsuarios() {
     //   let response = await UserService.getUsers();
     //   this.usuarios = response.data;
@@ -145,7 +157,10 @@ export default {
     // }
   },
   beforeMount() {
-    // this.cargarUsuarios();
+    this.getProjects()
+  },
+  updated(){
+    this.getProjects()
   },
   computed: {
     formTitle() {

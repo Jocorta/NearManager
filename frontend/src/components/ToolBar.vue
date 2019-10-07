@@ -11,13 +11,17 @@
           </v-list-tile-content>
         </v-list-tile>
 
-          <v-list-tile @click="goProject" v-for="(project, index) in projects" :key="index">
-            <v-list-tile-action>
-              <v-icon>list</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ project.name }}</v-list-tile-title>
-            </v-list-tile-content>
+          <v-list-tile v-for="(project, index) in projects" :key="index">
+
+
+              <v-list-tile-action @click="goProject(project._id)">
+                <v-icon>list</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content @click="goProject(project._id)">
+                <v-list-tile-title>{{ project.name }}</v-list-tile-title>
+              </v-list-tile-content>
+
+            
           </v-list-tile>
 
 
@@ -72,7 +76,7 @@ export default {
       let res = await AuthenticateService.authenticate({
         token: localStorage.getItem("token")
       });
-        this.$router.push("home");
+        this.$router.push("/home");
     },
     async goProject() {
       let res = await AuthenticateService.authenticate({
@@ -92,7 +96,7 @@ export default {
       let res = await AuthenticateService.authenticate({
         token: localStorage.getItem("token")
       });
-        this.$router.push("project");
+        this.$router.push("/project/" + id);
     }
   },
   beforeMount() {
