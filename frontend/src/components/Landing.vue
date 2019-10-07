@@ -84,6 +84,7 @@
 <script>
 import UserService from "@/services/UserService";
 import ProjectService from "@/services/ProjectService";
+import VueJwtDecode from 'vue-jwt-decode'
 export default {
   name: "Project",
   data: () => ({
@@ -99,7 +100,8 @@ export default {
       members: [],
       files: []
     },
-    lider: localStorage.getItem("user"),
+    token: localStorage.getItem("token"),
+    lider: "",
     selected: {
       name: "",
       id_lider: ""
@@ -109,19 +111,25 @@ export default {
     async cargarUsuarios() {
       let response = await UserService.getUsers();
       this.usuarios = response.data;
+      // console.log("response data")
+      // console.log(response.data)
       this.usuarios.forEach(usuario => {
+        // console.log(usuario)
         this.nombres.push(usuario.name)
         
       });
-      console.log("Aqui les vamos: ")
-      console.log(JSON.stringify(this.lider))
-      // console.log(this.lider)
-      
+      // console.log(this.usuarios)
     },
 
     async createProject(datos) {
       await ProjectService.addProject(datos);
     },
+
+    async obtainUserId() {
+      let tk = VueJwtDecode.decode(this.token)
+      this.lider = tk["id"]
+    },
+
 
     // async editarUsuario(datos) {
     //   await UserService.updateUser(datos);
@@ -154,23 +162,31 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
-
+    async createProject(datos) {
+      await ProjectService.addProject(datos);
+    },
     async save() {
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.usuarios[this.editedIndex], this.editedItem);
-      //   this.editarUsuario(this.editedItem);
-      // } else {
-      //   this.usuarios.push(this.editedItem);
-      //   await this.agregarUsuario(this.editedItem);
-      //   await this.cargarUsuarios();
-      // }
-      this.newProject.id_leader = localStorage.getItem("user")
-      console.log(this.newProject)
+      this.newProject.id_leader = this.lider
+      var newArray = []
+      this.usuarios.forEach(usuario => {
+        this.newProject.members.forEach(member => {
+          if (usuario.name == member) {
+            newArray.push(usuario._id)
+          }
+        })
+        this.newProject.members = newArray
+      })
+      await this.createProject(this.newProject);
+      confirm("Project Created.");
       this.close();
+      this.$router.push("/");
     }
   },
   beforeMount() {
     this.cargarUsuarios();
+    this.obtainUserId();
+    // console.log("usuarios:")
+    // console.log(this.usuarios)
   },
   computed: {
     formTitle() {

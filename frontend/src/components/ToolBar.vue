@@ -16,7 +16,7 @@
               <v-icon>list</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ project }}</v-list-tile-title>
+              <v-list-tile-title>{{ project.name }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
 
@@ -30,7 +30,10 @@
               <v-list-tile-title>Cursos</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </template> -->
+        </template>  -->
+
+
+        
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
@@ -47,10 +50,13 @@
 <script>
 import AuthenticateService from "@/services/AuthenticateService";
 import ProjectService from "@/services/ProjectService"
+import VueJwtDecode from 'vue-jwt-decode'
 export default {
   name: "ToolBar",
   data: () => ({
     drawer: null,
+    token: localStorage.getItem("token"),
+    user: "",
     admin: true,
     label: "",
     projects: []
@@ -83,6 +89,12 @@ export default {
       });
         this.$router.push("home");
     },
+    async obtainUserId() {
+      let tk = VueJwtDecode.decode(this.token)
+      this.user = tk["id"]
+      // console.log("usuario: ")
+      // console.log(this.user)
+    },
     async getProjects() {
       let response = await ProjectService.getProject();
       this.projects = response.data;
@@ -96,6 +108,7 @@ export default {
   },
   beforeMount() {
     this.getProjects()
+    this.obtainUserId()
   }
 };
 </script>

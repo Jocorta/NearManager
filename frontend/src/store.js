@@ -22,7 +22,7 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user;
     },
-    getUser(){
+    getUser() {
       return state.user
     }
     // ,
