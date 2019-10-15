@@ -27,7 +27,5 @@ router.delete("/:id", async (req, res) => {
 //Get name
 router.get("/:id", async (req, res) => {
   await User.findById(req.params.id);
-  console.log(req);
-  // res.json(users);
 });
 module.exports = router;

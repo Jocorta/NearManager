@@ -11,8 +11,8 @@ const User = new Schema(
     username: String,
     password: String,
     email: String,
-    name: String
-    
+    name: String,
+    notifications: Array
   },
   {
     collection: "users"

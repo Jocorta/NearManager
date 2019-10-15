@@ -11,7 +11,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-          <v-list-tile v-for="(project, index) in projects" :key="index">
+          <v-list-tile v-for="(project, index) in displayProjects" :key="index">
 
 
               <v-list-tile-action @click="goProject(project._id)">
@@ -23,20 +23,6 @@
 
             
           </v-list-tile>
-
-
-        <!-- <template v-if="admin">
-          <v-list-tile @click="irCursos">
-            <v-list-tile-action>
-              <v-icon>library_books</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>Cursos</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>  -->
-
-
         
       </v-list>
     </v-navigation-drawer>
@@ -44,6 +30,11 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Near Manager</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn @click="notifications" color="orange" fab x-large dark>
+          <v-icon>event</v-icon>
+        </v-btn>
+      </v-toolbar-items>
       <v-toolbar-items>
         <v-btn flat @click="salir">Logout</v-btn>
       </v-toolbar-items>
@@ -63,7 +54,8 @@ export default {
     user: "",
     admin: true,
     label: "",
-    projects: []
+    projects: [],
+    displayProjects: []
   }),
   methods: {
     salir() {
@@ -88,9 +80,17 @@ export default {
       let tk = VueJwtDecode.decode(this.token)
       this.user = tk["id"]
     },
+    async notifications() {
+      console.log("Im notifications")
+    },
     async getProjects() {
       let response = await ProjectService.getProject();
       this.projects = response.data;
+      this.projects.forEach(element => {
+        if(element.members.includes(this.user)) {
+          this.displayProjects.push(element)
+        }
+    });
     },
     async goProject(id) {
       let res = await AuthenticateService.authenticate({
@@ -102,6 +102,8 @@ export default {
   beforeMount() {
     this.getProjects()
     this.obtainUserId()
+    
+    
   }
 };
 </script>

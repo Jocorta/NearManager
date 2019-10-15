@@ -102,16 +102,10 @@ export default {
         this.nombres.push(usuario.name)
       });
     },
-
-    async createProject(datos) {
-      await ProjectService.addProject(datos);
-    },
-
     async obtainUserId() {
       let tk = VueJwtDecode.decode(this.token)
       this.lider = tk["id"]
     },
-
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -119,11 +113,9 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
-
     async createProject(datos) {
       await ProjectService.addProject(datos);
     },
-
     async save() {
       this.newProject.id_leader = this.lider
       var newArray = []
@@ -133,8 +125,9 @@ export default {
             newArray.push(usuario._id)
           }
         })
-        this.newProject.members = newArray
       })
+      this.newProject.members = newArray
+      console.log(this.newProject.members)
       await this.createProject(this.newProject);
       confirm("Project Created.");
       this.close();

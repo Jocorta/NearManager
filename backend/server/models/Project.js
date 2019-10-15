@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-//const Promise = require('bluebird')
-//const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
 const bcrypt = require("bcryptjs");
 
 mongoose.set("useFindAndModify", false);
