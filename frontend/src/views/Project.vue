@@ -2,7 +2,10 @@
   <div>
     <ToolBar/>
     <v-content>
-      <Project/><ChatRoom/>
+      
+      <Project/>
+      <Upload :key="$route.fullPath"/>
+      <ChatRoom/>
       
       
     </v-content>
