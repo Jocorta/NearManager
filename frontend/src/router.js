@@ -4,6 +4,8 @@ import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Registrar from "./views/Registrar.vue";
 import Project from "./views/Project.vue";
+import JoinRoom from "./views/JoinRoom.vue";
+import ChatRoom from "./views/ChatRoom.vue";
 
 import AuthenticateService from "./services/AuthenticateService";
 
@@ -32,6 +34,16 @@ const router = new Router({
       path: "/registrar",
       name: "registrar",
       component: Registrar
+    },
+    {
+      path: "/join-room/:id",
+      name: "JoinRoom",
+      component: JoinRoom
+    },
+    {
+      path: "/chat-room/:id/",
+      name: "ChatRoom",
+      component: ChatRoom
     }
   ]
 });

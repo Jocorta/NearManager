@@ -7,53 +7,51 @@
       </v-card-title> -->
       <v-toolbar flat color="white">
         <v-toolbar-title>{{ currentProject.name }}</v-toolbar-title>
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
-        <!-- <v-spacer></v-spacer> -->
-        <!-- <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Agregar</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
 
-            <v-card-text>
-              <v-container grid-list-md>
-                <v-layout wrap>
-                  <v-flex xs12 sm6>
-                    <v-text-field v-model="editedItem.nombre" label="Nombre"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-autocomplete :items="carreras" v-model="editedItem.carrera" label="Carrera"></v-autocomplete>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-text-field v-model="editedItem.telefono" label="Telefono"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-select :items="tipos" v-model="editedItem.tipo" label="Tipo"></v-select>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-text-field v-model="editedItem.usuario" label="Usuario"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-text-field v-model="editedItem.password" label="Contraseña"></v-text-field>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card-text>
+        <v-row justify="center">
+          <v-dialog v-model="dialog" persistent max-width="600px">
+            <template v-slot:activator="{ on }">
+              <b-button id="popover-target-1" variant="primary" v-on="on">Change Leader</b-button>
+              <b-popover target="popover-target-1" triggers="hover" placement="bottom">
+                <template v-slot:title>Just a reminder...</template>
+                This is a provisional button for the settings section to add the functionality of changing a leader of a project. This is supporten only for phase 1 of Near-Manager.
+              </b-popover>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">Change Leader</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-              <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog> -->
+                    <v-col cols="12" sm="6">
+                      <v-autocomplete
+                        :items="this.usuarios"
+                        v-model="leader.new"
+                        label="Users"
+                        required
+                        item-text="name"
+                        return-object
+                      ></v-autocomplete>
+                    </v-col>
+
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <div class="flex-grow-1"></div>
+                <v-btn color="blue darken-1" text @click="close()">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="save()">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+
+
       </v-toolbar>
+
+      
       <!-- <v-data-table :headers="headers" :items="usuarios" :search="search">
         <template v-slot:items="props">
           <td>{{ props.item.nombre }}</td>
@@ -91,7 +89,11 @@ export default {
     pagination: {},
     selected: [],
     projects: [],
-    currentProject: {}
+    usuarios: [],
+    leader: {},
+    currentProject: {},
+    newLeaderObject: {}
+
   }),
   methods: {
     async getProjects() {
@@ -102,19 +104,20 @@ export default {
           this.currentProject = project
         }
       })
-    }
-    // async cargarUsuarios() {
-    //   let response = await UserService.getUsers();
-    //   this.usuarios = response.data;
-    // },
+    },
+    async cargarUsuarios() {
+      let response = await UserService.getUsers();
+      this.usuarios = response.data;
+      console.log(this.usuarios)
+    },
 
     // async agregarUsuario(datos) {
     //   await UserService.addUser(datos);
     // },
 
-    // async editarUsuario(datos) {
-    //   await UserService.updateUser(datos);
-    // },
+    async changeLeader(datos) {
+      await ProjectService.updateProject(datos);
+    },
 
     // async borrarUsuario(datos) {
     //   await UserService.deleteUser(datos);
@@ -136,27 +139,36 @@ export default {
     //   }
     // },
 
-    // close() {
-    //   this.dialog = false;
-    //   setTimeout(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem);
-    //     this.editedIndex = -1;
-    //   }, 300);
-    // },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
 
-    // async save() {
-    //   if (this.editedIndex > -1) {
-    //     Object.assign(this.usuarios[this.editedIndex], this.editedItem);
-    //     this.editarUsuario(this.editedItem);
-    //   } else {
-    //     this.usuarios.push(this.editedItem);
-    //     await this.agregarUsuario(this.editedItem);
-    //     await this.cargarUsuarios();
-    //   }
-    //   this.close();
-    // }
+    async save() {
+      // Change Project Leader
+      // console.log(this.leader.new._id)
+      this.newLeaderObject = this.currentProject
+      this.newLeaderObject.id_leader = this.leader.new._id
+
+      console.log(this.newLeaderObject)
+      this.changeLeader(this.newLeaderObject)
+      this.getProjects()
+      // if (this.editedIndex > -1) {
+      //   Object.assign(this.usuarios[this.editedIndex], this.editedItem);
+      //   this.editarUsuario(this.editedItem);
+      // } else {
+      //   this.usuarios.push(this.editedItem);
+      //   await this.agregarUsuario(this.editedItem);
+      //   await this.cargarUsuarios();
+      // }
+      this.close();
+    }
   },
   beforeMount() {
+    this.cargarUsuarios()
     this.getProjects()
   },
   updated(){

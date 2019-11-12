@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
+mongoose.Promise = require('bluebird');
 mongoose
   .connect("mongodb://localhost/nearmanager", {
     useNewUrlParser: true
@@ -16,6 +17,9 @@ mongoose
 app.use(bodyParser.json());
 app.use(cors());
 
+
+var room = require('./routes/room');
+var chat = require('./routes/chat');
 const users = require("./routes/user");
 const login = require("./routes/login");
 const projects = require("./routes/project");
